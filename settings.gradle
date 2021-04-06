@@ -1,0 +1,7 @@
+include ':customerProcessor'
+include ':customerAnnotation'
+include ':featureB'
+include ':featureA'
+include ':baseBusiness'
+include ':app'
+rootProject.name = "Modulelization"

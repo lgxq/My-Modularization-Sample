@@ -1,0 +1,72 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+//apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    buildFeatures {
+        dataBinding true
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+
+    //base
+    api "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    api "androidx.core:core-ktx:${androidX}"
+    api "androidx.appcompat:appcompat:${rootProject.ext.dependencies.appComponent}"
+
+    //unit test
+    testImplementation "junit:junit:${rootProject.ext.dependencies.junit}"
+    androidTestImplementation "androidx.test.ext:junit:${rootProject.ext.dependencies.junitExt}"
+    androidTestImplementation "androidx.test.espresso:espresso-core:${rootProject.ext.dependencies.espresso}"
+
+    //constraint
+    api "androidx.constraintlayout:constraintlayout:${rootProject.ext.dependencies.constraintLayout}"
+
+    // navigation
+    api "androidx.navigation:navigation-fragment-ktx:${rootProject.ext.dependencies.navVersion}"
+    api "androidx.navigation:navigation-ui-ktx:${rootProject.ext.dependencies.navVersion}"
+
+    // fragment x
+    api "androidx.fragment:fragment-ktx:${rootProject.ext.dependencies.fragment}"
+
+    //koin
+    api "org.koin:koin-android:${rootProject.ext.dependencies.koin}"
+
+    //annotation
+    kapt project(":customerProcessor")
+    implementation project(":customerAnnotation")
+    
+
+    //hilt
+    //api "com.google.dagger:hilt-android:${rootProject.ext.dependencies.hilt}"
+    //kapt "com.google.dagger:hilt-android-compiler:${rootProject.ext.dependencies.hilt}"
+
+//    annotationProcessor files("libs/customerProcessor.jar")
+//    implementation files("libs/customerProcessor.jar")
+}
